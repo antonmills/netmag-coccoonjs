@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1a45101-afca-4d55-b7fe-9c3859aaee77" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/completed-project/assets/img/boom32wh12.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/completed-project/assets/img/enemylaser.png" afterPath="$PROJECT_DIR$/completed-project/assets/img/enemylaser.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source-imagery/enemylaser.psd" afterPath="$PROJECT_DIR$/source-imagery/enemylaser.psd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/completed-project/assets/img/gameover.png" afterPath="$PROJECT_DIR$/completed-project/assets/img/gameover.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source-imagery/gameover.psd" afterPath="$PROJECT_DIR$/source-imagery/gameover.psd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/completed-project/assets/img/playerlaser.png" afterPath="$PROJECT_DIR$/completed-project/assets/img/playerlaser.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source-imagery/playerlaser.psd" afterPath="$PROJECT_DIR$/source-imagery/playerlaser.psd" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.zip" afterPath="$PROJECT_DIR$/game.zip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/completed-project/index.html" afterPath="$PROJECT_DIR$/completed-project/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="netmag-coccoonjs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,21 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gulpfile.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="555">
-              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/completed-project/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.392405" vertical-offset="630" max-vertical-offset="6735">
-              <caret line="86" column="12" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.60126585" vertical-offset="135" max-vertical-offset="6615">
+              <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -249,7 +232,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="256" y="23" width="1436" height="877" extended-state="6" />
+    <frame x="256" y="23" width="1436" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -340,8 +323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/completed-project/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.392405" vertical-offset="630" max-vertical-offset="6735">
-          <caret line="86" column="12" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.60126585" vertical-offset="135" max-vertical-offset="6615">
+          <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
           <folding />
         </state>
       </provider>

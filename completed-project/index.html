@@ -16,10 +16,7 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial;
-            font-size: 14px;
             background-color: #000000;
-            color: #fff;
         }
     </style>
 </head>
@@ -82,15 +79,10 @@
         // this is invoked when all preloads have been completed
         // use this to perform any setup that is not related to core gameplay such as UI set-up
         function create() {
-            //game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-            //game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            //game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-            //game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-            //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            //game.scale.pageAlignVertically = true;
-            //game.scale.pageAlignHorizontally = true;
+            game.scale.pageAlignVertically = true;
+            game.scale.pageAlignHorizontally = true;
+            game.scale.refresh();
 
             initIntro();
         }
