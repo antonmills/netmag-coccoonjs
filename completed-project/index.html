@@ -5,7 +5,7 @@
 <!-- head -->
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <!--<meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0 minimal-ui" />-->
+    <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0 minimal-ui" />
 
     <title>.net magazine - shmup</title>
     <script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>
@@ -49,7 +49,7 @@
         var playerScore = 0;
         var scoreText;
         var livesText;
-        var mainMenuImageButton;
+        var introImageButton;
         var gameoverImageButton;
         var gameoverScore;
         var hiddenFireButton;
@@ -60,7 +60,7 @@
                                                                                             create: create,
                                                                                             update: update });
 
-        //console.log("screen resolution is: w:" + screenW + " h:" + screenH);
+        console.log("screen resolution is: w:" + screenW + " h:" + screenH);
 
 
 
@@ -72,7 +72,7 @@
             game.load.image('enemy', './assets/img/enemy.png');
             game.load.image('playerLaser', './assets/img/playerlaser.png');
             game.load.image('enemyLaser', './assets/img/enemylaser.png');
-            game.load.image('menu', './assets/img/mainmenu.png');
+            game.load.image('intro', './assets/img/intro.png');
             game.load.image('gameover', './assets/img/gameover.png');
             game.load.spritesheet('kaboom', './assets/img/explosion.png', 64, 64, 23);
         }
@@ -82,21 +82,27 @@
         // this is invoked when all preloads have been completed
         // use this to perform any setup that is not related to core gameplay such as UI set-up
         function create() {
-            game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+            //game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+            //game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
+            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            //game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+            //game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+
+            //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             //game.scale.pageAlignVertically = true;
             //game.scale.pageAlignHorizontally = true;
 
-            initMainMenu();
+            initIntro();
         }
 
 
         // shows the main menu
         // once the menu button is pressed it starts the game by
         // initiating the user interface and gameplay
-        function initMainMenu() {
-            mainMenuImageButton = game.add.sprite(game.world.centerX, game.world.centerY, 'menu');
-            mainMenuImageButton.anchor.setTo(0.5, 0.5);
-            mainMenuImageButton.visible = true;
+        function initIntro() {
+            introImageButton = game.add.sprite(game.world.centerX, game.world.centerY, 'intro');
+            introImageButton.anchor.setTo(0.5, 0.5);
+            introImageButton.visible = true;
 
             game.input.onTap.addOnce(initGame, this);
         }
@@ -131,7 +137,7 @@
         // inits the main UI, lives, scores etc
         function initUI() {
 
-            mainMenuImageButton.visible = false;
+            introImageButton.visible = false;
 
             scoreText = game.add.text(30, 30,' ', { font: '60px Arial', fill: '#fff' });
             scoreText.text = "Score: 0";
