@@ -82,7 +82,6 @@
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             game.scale.pageAlignVertically = true;
             game.scale.pageAlignHorizontally = true;
-            game.scale.refresh();
 
             initIntro();
         }
@@ -269,8 +268,10 @@
 
                 // move towards
                 if(game.input.pointer1.isDown) {
-                    var newY = (game.input.pointer1.y - player.y) / 10;
-                    player.y += newY;
+                    if(game.input.pointer1.x < screenW/2) {
+                        var newY = (game.input.pointer1.y - player.y) / 10;
+                        player.y += newY;
+                    }
                 }
 
                     //  collision checks
