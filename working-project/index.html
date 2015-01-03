@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- head -->
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0 minimal-ui" />
+
+    <title>.net magazine - spacewars</title>
+    <script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <script src="js/phaser.min.js" type="text/javascript"></script>
+
+    <!-- inline styles to make small babies cry -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+</head>
+
+
+<!-- body -->
+<body>
+
+    <!-- the placeholder for the game -->
+    <div id="canvas-placeholder"></div>
+
+    <!-- the game script -->
+    <script type="application/javascript">
+
+        // these are the objects used in this game
+        var screenW = 1920;
+        var screenH = 1080;
+        var phaser;
+
+
+        // our phaser game - note there are methods passed as parameters, preload, create and update
+        var game = new Phaser.Game(screenW, screenH, Phaser.CANVAS, 'canvas-placeholder', { preload: preload,
+                                                                                            create: create,
+                                                                                            update: update });
+
+        console.log("screen resolution is: w:" + screenW + " h:" + screenH);
+
+
+
+        // the preload method
+        // all assets should be listed here to be preloaded before the game starts
+        function preload() {
+            game.load.image('phaser', './assets/img/phaser2.png');
+        }
+
+
+        // create method
+        // this is invoked when all preloads have been completed
+        // use this to perform any setup that is not related to core gameplay such as UI set-up
+        function create() {
+            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            game.scale.pageAlignVertically = true;
+            game.scale.pageAlignHorizontally = true;
+
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+
+
+            phaser = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
+
+            game.physics.enable(phaser, Phaser.Physics.ARCADE);
+            phaser.body.velocity.setTo(300, 300);
+            phaser.body.collideWorldBounds = true;
+            phaser.body.bounce.set(1);
+        }
+
+
+        // the update method is where the core gameplay mechanics happen
+        function update() {
+
+        }
+
+    </script>
+</body>
+
+
+</html>
