@@ -240,8 +240,8 @@
             enemy = groupEnemy.next();
 
             if(enemy) {
-                enemy.reset(screenW, 32 + (Math.random() * screenH-64));
-                enemy.body.velocity.x = -500;
+                enemy.reset(screenW, 64 + (Math.random() * (screenH-128)));
+                enemy.body.velocity.x = -(Math.random() * 500) - 300;
 
                 // does the enemy fire? if the random number is larger than 0.6 (50%) then
                 // the enemy fires
@@ -266,7 +266,7 @@
     function createEnemyFire(enemy) {
         laser = groupEnemyLaser.next();
         laser.reset(enemy.x - 12, enemy.y);
-        laser.body.velocity.x = -700;
+        laser.body.velocity.x = -900;
     }
 
 </script>

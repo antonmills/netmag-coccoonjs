@@ -46,6 +46,7 @@
         var playerScore = 0;
         var scoreText;
         var livesText;
+        var explosions;
         var introImageButton;
         var gameoverImageButton;
         var gameoverScore;
@@ -274,7 +275,7 @@
                     }
                 }
 
-                    //  collision checks
+                // collision checks
                 game.physics.arcade.overlap(groupEnemy, groupPlayerLaser, collisionShotEnemy, null, this);
                 game.physics.arcade.overlap(groupEnemy, player, enemyPlayerCollide, null, this);
                 game.physics.arcade.overlap(groupEnemyLaser, player, enemyLaserPlayerCollide, null, this);

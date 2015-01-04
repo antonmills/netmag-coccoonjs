@@ -43,6 +43,7 @@
     var groupEnemyLaser;
     var enemyTime = 200;
     var difficultyOffset = 2200;
+    var explosions;
 
 
     // our phaser game - note there are methods passed as parameters, preload, create and update
@@ -63,6 +64,7 @@
         game.load.image('playerLaser', './assets/img/playerlaser.png');
         game.load.image('enemy', './assets/img/enemy.png');
         game.load.image('enemyLaser', './assets/img/enemylaser.png');
+        game.load.spritesheet('kaboom', './assets/img/explosion.png', 64, 64, 23);
     }
 
 
@@ -163,6 +165,14 @@
         groupEnemyLaser.setAll('anchor.y', 0.5);
         groupEnemyLaser.setAll('outOfBoundsKill', true);
         groupEnemyLaser.setAll('checkWorldBounds', true);
+
+        // explosion pool
+        explosions = game.add.group();
+        for (var i = 0; i < 20; i++) {
+            var explosionAnimation = explosions.create(0, 0, 'kaboom', [0], false);
+            explosionAnimation.anchor.setTo(0.5, 0.5);
+            explosionAnimation.animations.add('kaboom');
+        }
     }
 
 
@@ -197,6 +207,11 @@
             if(game.time.now > enemyTime) {
                 createEnemy();
             }
+
+            // collision checks
+            game.physics.arcade.overlap(groupEnemy, groupPlayerLaser, collisionShotEnemy, null, this);
+            game.physics.arcade.overlap(groupEnemy, player, enemyPlayerCollide, null, this);
+            game.physics.arcade.overlap(groupEnemyLaser, player, enemyLaserPlayerCollide, null, this);
         }
     }
 
@@ -267,6 +282,66 @@
         laser = groupEnemyLaser.next();
         laser.reset(enemy.x - 12, enemy.y);
         laser.body.velocity.x = -900;
+    }
+
+
+    // the collision check for the players laser against an enemy
+    // from the enemy group
+    function collisionShotEnemy(enemy, laser) {
+        createExplosion(enemy.x, enemy.y, 2);
+
+        enemy.kill();
+        laser.kill();
+    }
+
+
+    // checks to see if the enemy and the player are colliding
+    function enemyPlayerCollide(enemy, player) {
+        createExplosion(player.x, player.y, 2);
+        createExplosion(enemy.x, enemy.y, 3);
+
+        enemy.kill();
+        player.kill();
+
+        loseLife();
+    }
+
+
+    // checks to see if the player has been shot by any enemy lasers
+    function enemyLaserPlayerCollide(enemyLaser, player) {
+        createExplosion(player.x, player.y, 3);
+
+        player.kill();
+        enemyLaser.kill();
+
+        loseLife();
+    }
+
+
+    // reset the players ship
+    function loseLife() {
+        // replace player
+        player.body.velocity.setTo(0, 0);
+        player.reset(10, game.world.centerY);
+
+        // tween to position
+        var sprite_tween = this.game.add.tween(player);
+        sprite_tween.to({x: 400}, 1000, Phaser.Easing.Cubic.Out, false, 0, false);
+        sprite_tween.repeat(0);
+        sprite_tween.start();
+
+        // kill all enemies and lasers
+        groupEnemy.callAll('kill');
+        groupEnemyLaser.callAll('kill');
+    }
+
+
+    // creates a visual explosion at x/y coordinates
+    function createExplosion(x, y, scale) {
+        var explosionAnimation = explosions.getFirstExists(false);
+        explosionAnimation.reset(x, y);
+        explosionAnimation.scale.set(scale, scale);
+        explosionAnimation.play('kaboom', 30, false, true);
     }
 
 </script>
