@@ -25,157 +25,184 @@
 <!-- body -->
 <body>
 
-    <!-- the placeholder for the game -->
-    <div id="canvas-placeholder"></div>
+<!-- the placeholder for the game -->
+<div id="canvas-placeholder"></div>
 
-    <!-- the game script -->
-    <script type="application/javascript">
+<!-- the game script -->
+<script type="application/javascript">
 
-        // these are the objects used in this game
-        var screenW = 1920;
-        var screenH = 1080;
-        var bg;
-        var player;
-        var hiddenFireButton;
-        var groupPlayerLaser;
-        var fireTime = 0;
-
-
-        // our phaser game - note there are methods passed as parameters, preload, create and update
-        var game = new Phaser.Game(screenW, screenH, Phaser.CANVAS, 'canvas-placeholder', { preload: preload,
-                                                                                            create: create,
-                                                                                            update: update });
-
-        console.log("screen resolution is: w:" + screenW + " h:" + screenH);
+    // these are the objects used in this game
+    var screenW = 1920;
+    var screenH = 1080;
+    var bg;
+    var player;
+    var hiddenFireButton;
+    var groupPlayerLaser;
+    var fireTime = 0;
 
 
+    // our phaser game - note there are methods passed as parameters, preload, create and update
+    var game = new Phaser.Game(screenW, screenH, Phaser.CANVAS, 'canvas-placeholder', { preload: preload,
+        create: create,
+        update: update });
 
-        // the preload method
-        // all assets should be listed here to be preloaded before the game starts
-        function preload() {
-            game.load.image('bg', './assets/img/bg.png');
-            game.load.image('ship', './assets/img/player.png');
-            game.load.image('intro', './assets/img/intro.png');
-        }
+    console.log("screen resolution is: w:" + screenW + " h:" + screenH);
 
 
-        // create method
-        // this is invoked when all preloads have been completed
-        // use this to perform any setup that is not related to core gameplay such as UI set-up
-        function create() {
-            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.pageAlignVertically = true;
-            game.scale.pageAlignHorizontally = true;
 
-            initIntro();
-        }
-
-
-        // shows the main menu
-        // once the menu button is pressed it starts the game by
-        // initiating the user interface and gameplay
-        function initIntro() {
-            introImageButton = game.add.sprite(game.world.centerX, game.world.centerY, 'intro');
-            introImageButton.anchor.setTo(0.5, 0.5);
-            introImageButton.visible = true;
-
-            game.input.onTap.addOnce(initGame, this);
-        }
+    // the preload method
+    // all assets should be listed here to be preloaded before the game starts
+    function preload() {
+        game.load.image('bg', './assets/img/bg.png');
+        game.load.image('ship', './assets/img/player.png');
+        game.load.image('intro', './assets/img/intro.png');
+        game.load.image('playerLaser', './assets/img/playerlaser.png');
+    }
 
 
-        // once the main-menu has been pressed, this method
-        // sets the game for play mode by initialising the
-        // UI and the game objects
-        function initGame() {
-            initGameObjects();
-            initUI();
-        }
+    // create method
+    // this is invoked when all preloads have been completed
+    // use this to perform any setup that is not related to core gameplay such as UI set-up
+    function create() {
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.pageAlignVertically = true;
+        game.scale.pageAlignHorizontally = true;
+
+        initIntro();
+    }
 
 
-        // inits the main UI, lives, scores etc
-        function initUI() {
+    // shows the main menu
+    // once the menu button is pressed it starts the game by
+    // initiating the user interface and gameplay
+    function initIntro() {
+        introImageButton = game.add.sprite(game.world.centerX, game.world.centerY, 'intro');
+        introImageButton.anchor.setTo(0.5, 0.5);
+        introImageButton.visible = true;
 
-            introImageButton.visible = false;
-
-            // create a hidden rectangle at the right hand of the screen and use as a button for firing
-            hiddenFireButton = new Phaser.Rectangle(game.width/2, 0, game.width/2, game.height);
-
-            // listen to any clicks on the stage (firing and movement)
-            game.input.onDown.add(handlePointerDown);
-        }
-
-
-        // this sets up the core game objects
-        // once this is complete the game then runs frame by frame with the update method
-        function initGameObjects() {
-
-            // init the physics system
-            game.physics.startSystem(Phaser.Physics.ARCADE);
-
-            // background graphic
-            bg = game.add.sprite(0, 0, 'bg');
-
-            // inits the players ship
-            player = game.add.sprite(10, game.world.centerY, 'ship');
-            player.anchor.setTo(0.5, 0.5);
-            game.physics.enable(player, Phaser.Physics.ARCADE);
-            player.alive = true;
-
-            // tween player to position
-            var sprite_tween = this.game.add.tween(player);
-            sprite_tween.to({x: 400}, 1000, Phaser.Easing.Cubic.Out, false, 0, false);
-            sprite_tween.repeat(0);
-            sprite_tween.start();
-        }
+        game.input.onTap.addOnce(initGame, this);
+    }
 
 
-        // the update method is where the core gameplay mechanics happen
-        // each tick checks for player movement, enemy movement, laser collisions etc
-        function update() {
+    // once the main-menu has been pressed, this method
+    // sets the game for play mode by initialising the
+    // UI and the game objects
+    function initGame() {
+        initGameObjects();
+        initUI();
+    }
 
-            // if player is alive
-            if(player && player.alive) {
 
-                // key input for desktop
-                if(game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                    player.body.velocity.y -= 12;
-                }
-                else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                    player.body.velocity.y += 12;
-                }
+    // inits the main UI, lives, scores etc
+    function initUI() {
 
-                if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-                    fireLaser();
-                }
+        introImageButton.visible = false;
 
-                // move towards
-                if(game.input.pointer1.isDown) {
-                    if(game.input.pointer1.x < screenW/2) {
-                        var newY = (game.input.pointer1.y - player.y) / 10;
-                        player.y += newY;
-                    }
-                }
+        // create a hidden rectangle at the right hand of the screen and use as a button for firing
+        hiddenFireButton = new Phaser.Rectangle(game.width/2, 0, game.width/2, game.height);
+
+        // listen to any clicks on the stage (firing and movement)
+        game.input.onDown.add(handlePointerDown);
+    }
+
+
+    // this sets up the core game objects
+    // once this is complete the game then runs frame by frame with the update method
+    function initGameObjects() {
+
+        // init the physics system
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // background graphic
+        bg = game.add.sprite(0, 0, 'bg');
+
+        // inits the players ship
+        player = game.add.sprite(10, game.world.centerY, 'ship');
+        player.anchor.setTo(0.5, 0.5);
+        game.physics.enable(player, Phaser.Physics.ARCADE);
+        player.alive = true;
+
+        // tween player to position
+        var sprite_tween = this.game.add.tween(player);
+        sprite_tween.to({x: 400}, 1000, Phaser.Easing.Cubic.Out, false, 0, false);
+        sprite_tween.repeat(0);
+        sprite_tween.start();
+
+        // inits the player laser group
+        groupPlayerLaser = game.add.group();
+        groupPlayerLaser.enableBody = true;
+        groupPlayerLaser.physicsBodyType = Phaser.Physics.ARCADE;
+        groupPlayerLaser.createMultiple(40, 'playerLaser');
+        groupPlayerLaser.setAll('anchor.x', 0.5);
+        groupPlayerLaser.setAll('anchor.y', 0.5);
+        groupPlayerLaser.setAll('outOfBoundsKill', true);
+        groupPlayerLaser.setAll('checkWorldBounds', true);
+    }
+
+
+    // the update method is where the core gameplay mechanics happen
+    // each tick checks for player movement, enemy movement, laser collisions etc
+    function update() {
+
+        // if player is alive
+        if(player && player.alive) {
+
+            // key input for desktop
+            if(game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+                player.body.velocity.y -= 12;
             }
-        }
+            else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+                player.body.velocity.y += 12;
+            }
 
-
-        // handle a touch/click
-        function handlePointerDown(pointer) {
-            // has the fire button been pressed?
-            var clickedHiddenFireButton = hiddenFireButton.contains(pointer.x, pointer.y);
-            if(clickedHiddenFireButton) {
+            if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
                 fireLaser();
             }
+
+            // move towards
+            if(game.input.pointer1.isDown) {
+                if(game.input.pointer1.x < screenW/2) {
+                    var newY = (game.input.pointer1.y - player.y) / 10;
+                    player.y += newY;
+                }
+            }
         }
+    }
 
 
-        // the firing method, this creates two lasers infront of the players ship
-        // and sets a delay to stop rapid / continuous firing from occuring
-        function fireLaser() {
-            console.log("fire!");
+    // handle a touch/click
+    function handlePointerDown(pointer) {
+        // has the fire button been pressed?
+        var clickedHiddenFireButton = hiddenFireButton.contains(pointer.x, pointer.y);
+        if(clickedHiddenFireButton) {
+            fireLaser();
         }
+    }
 
-    </script>
+
+    // the firing method, this creates two lasers infront of the players ship
+    // and sets a delay to stop rapid / continuous firing from occuring
+    function fireLaser() {
+
+        // to avoid them being allowed to fire too fast we set a time limit
+        if(game.time.now > fireTime)
+        {
+            // grab two lasers from the laser object-pool
+            laser = groupPlayerLaser.next();
+
+            if(laser)
+            {
+                // and fire it
+                laser.reset(player.x + 6, player.y);
+                laser.body.velocity.x = 700;
+
+                // set a delay to not allow rapid fire
+                fireTime = game.time.now + 600;
+            }
+        }
+    }
+
+</script>
 </body>
 
 
